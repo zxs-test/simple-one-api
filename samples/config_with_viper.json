@@ -1,0 +1,111 @@
+{
+  "server_port": ":9090",
+  "debug": true,
+  "log_level": "info",
+  "load_balancing": "random",
+  "api_key": "your-api-key-here",
+  "multi_content_models": [
+    "custom-multi-model-1",
+    "custom-multi-model-2"
+  ],
+  "model_redirect": {
+    "gpt-4": "gpt-4-turbo",
+    "claude-3": "claude-3-sonnet"
+  },
+  "params_range": {
+    "gpt-4": {
+      "temperatureRange": {
+        "min": 0.0,
+        "max": 2.0
+      },
+      "topPRange": {
+        "min": 0.0,
+        "max": 1.0
+      },
+      "maxTokens": 4096
+    }
+  },
+  "proxy": {
+    "strategy": "default",
+    "type": "http",
+    "http_proxy": "http://proxy.example.com:8080",
+    "https_proxy": "http://proxy.example.com:8080",
+    "timeout": 30
+  },
+  "translation": {
+    "enable": true,
+    "promptTemplate": "Translate the following text from {src_lang} to {target_lang}: {text}",
+    "retry": 3,
+    "concurrency": 5
+  },
+  "enable_web": true,
+  "api_keys": [
+    {
+      "api_key": "key1",
+      "supported_models": {
+        "openai": ["gpt-4", "gpt-3.5-turbo"],
+        "claude": ["claude-3-sonnet"]
+      }
+    },
+    {
+      "api_key": "key2",
+      "supported_models": {
+        "openai": ["*"]
+      }
+    }
+  ],
+  "services": {
+    "openai": [
+      {
+        "provider": "openai",
+        "models": [
+          "gpt-4",
+          "gpt-4-turbo",
+          "gpt-3.5-turbo"
+        ],
+        "enabled": true,
+        "credentials": {
+          "api_key": "your-openai-api-key"
+        },
+        "server_url": "https://api.openai.com/v1",
+        "model_map": {
+          "gpt-4-custom": "gpt-4"
+        },
+        "model_redirect": {
+          "gpt-4-legacy": "gpt-4"
+        },
+        "limit": {
+          "qps": 10.0,
+          "qpm": 1000.0,
+          "rpm": 100.0,
+          "concurrency": 5.0,
+          "timeout": 30
+        },
+        "timeout": 30,
+        "use_proxy": true
+      }
+    ],
+    "claude": [
+      {
+        "provider": "claude",
+        "models": [
+          "claude-3-sonnet",
+          "claude-3-haiku"
+        ],
+        "enabled": true,
+        "credentials": {
+          "api_key": "your-claude-api-key"
+        },
+        "server_url": "https://api.anthropic.com",
+        "limit": {
+          "qps": 5.0,
+          "qpm": 500.0,
+          "rpm": 50.0,
+          "concurrency": 3.0,
+          "timeout": 30
+        },
+        "timeout": 30
+      }
+    ]
+  }
+} 
