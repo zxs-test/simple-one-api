@@ -76,7 +76,7 @@ type ServiceModel struct {
 	Enabled         bool                     `json:"enabled" yaml:"enabled"`
 	Credentials     map[string]interface{}   `json:"credentials" yaml:"credentials"`
 	CredentialList  []map[string]interface{} `json:"credential_list" yaml:"credential_list"`
-	ServerURL       string                   `json:"server_url" yaml:"server_url"`
+	ServerUrl       string                   `json:"server_url" yaml:"server_url" mapstructure:"server_url"`
 	ModelMap        map[string]string        `json:"model_map" yaml:"model_map"`
 	ModelRedirect   map[string]string        `json:"model_redirect" yaml:"model_redirect"`
 	Limit           Limit                    `json:"limit" yaml:"limit"`

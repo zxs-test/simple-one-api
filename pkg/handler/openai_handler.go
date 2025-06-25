@@ -301,7 +301,7 @@ func HandleOpenAIRequest(c *gin.Context, oaiReq *openai.ChatCompletionRequest) {
 	keepAllSystem := false
 
 	//moonshot支持system模型，并且system可以放在任何位置并且可以是多个
-	if s.Provider == "moonshot" || strings.HasPrefix(s.ServerURL, "https://api.moonshot.cn") {
+	if s.Provider == "moonshot" || strings.HasPrefix(s.ServerUrl, "https://api.moonshot.cn") {
 		keepAllSystem = true
 	}
 	//mylog.Logger.Debug("oaiReq", zap.Any("oaiReq", oaiReq))

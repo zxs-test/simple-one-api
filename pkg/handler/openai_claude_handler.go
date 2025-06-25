@@ -32,7 +32,7 @@ func OpenAI2ClaudeHandler(c *gin.Context, oaiReqParam *OAIRequestParam) error {
 
 	claudeReq := adapter.OpenAIRequestToClaudeRequest(oaiReq)
 
-	claudeServerURL := s.ServerURL
+	claudeServerURL := s.ServerUrl
 
 	if claudeServerURL == "" {
 		claudeServerURL = defaultClaudeServerURL

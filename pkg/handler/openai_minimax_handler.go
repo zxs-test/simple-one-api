@@ -26,12 +26,12 @@ func OpenAI2MinimaxHandler(c *gin.Context, oaiReqParam *OAIRequestParam) error {
 	apiKey := credentials[config.KEYNAME_API_KEY]
 	groupID := credentials[config.KEYNAME_GROUP_ID]
 
-	if s.ServerURL == "" {
+	if s.ServerUrl == "" {
 		//serverUrl = defaultUrl
-		s.ServerURL = "https://api.minimax.chat/v1/text/chatcompletion_pro"
+		s.ServerUrl = "https://api.minimax.chat/v1/text/chatcompletion_pro"
 	}
 
-	serverUrl := fmt.Sprintf("%s?GroupId=%s", s.ServerURL, groupID)
+	serverUrl := fmt.Sprintf("%s?GroupId=%s", s.ServerUrl, groupID)
 	bearerToken := fmt.Sprintf("Bearer %s", apiKey)
 
 	minimaxReq := adapter.OpenAIRequestToMinimaxRequest(oaiReq)

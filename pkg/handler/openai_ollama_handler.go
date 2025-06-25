@@ -71,8 +71,8 @@ func handleOllamaRequest(c *gin.Context, s *config.ModelDetails, ollamaRequest *
 	}
 
 	serverUrl := defaultOllamaUrl
-	if s.ServerURL != "" {
-		serverUrl = s.ServerURL
+	if s.ServerUrl != "" {
+		serverUrl = s.ServerUrl
 	}
 
 	resp, err := sendOllamaJSONRequest(serverUrl, jsonStr)
