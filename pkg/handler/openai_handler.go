@@ -183,7 +183,7 @@ func checkTokenModel(apiKey, model string) string {
 	var m map[string]interface{}
 	err = json.Unmarshal(data, &m)
 	if err != nil {
-		mylog.Logger.Error("CheckTokenModel error: " + err.Error())
+		mylog.Logger.Error("CheckTokenModel error: " + err.Error() + ",data=" + string(data))
 		return ""
 	}
 	ns, ok := m["namespace"].(string)
