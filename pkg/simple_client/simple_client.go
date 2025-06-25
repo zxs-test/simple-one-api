@@ -44,7 +44,7 @@ func (c *SimpleClient) CreateChatCompletion(
 	// 创建Gin的实例和配置路由
 	ginc := gin.New()
 	ginc.POST("/v1/chat/completions", func(ctx *gin.Context) {
-		handler.HandleOpenAIRequest(ctx, &request)
+		handler.HandleOpenAIRequest(ctx, &request, "")
 	})
 
 	// 创建响应记录器
@@ -83,7 +83,7 @@ func (c *SimpleClient) CreateChatCompletionStream(
 		ctx.Next()
 	})
 	ginc.POST("/v1/chat/completions", func(ctx *gin.Context) {
-		handler.HandleOpenAIRequest(ctx, &request)
+		handler.HandleOpenAIRequest(ctx, &request, "")
 	})
 
 	// 模拟发送请求

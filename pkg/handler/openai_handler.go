@@ -4,7 +4,9 @@ import (
 	"bytes"
 	"context"
 	"errors"
+	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/goccy/go-json"
 	"github.com/sashabaranov/go-openai"
 	"go.uber.org/zap"
 	"io"
@@ -158,14 +160,40 @@ func OpenAIHandler(c *gin.Context) {
 		return
 	}
 
+	namespace := checkTokenModel(apikey, oaiReq.Model)
+
 	mycommon.LogChatCompletionRequest(oaiReq)
 
-	HandleOpenAIRequest(c, &oaiReq)
+	HandleOpenAIRequest(c, &oaiReq, namespace)
 
 	return
 }
 
-func HandleOpenAIRequest(c *gin.Context, oaiReq *openai.ChatCompletionRequest) {
+func checkTokenModel(apiKey, model string) string {
+	resp, err := http.Get(fmt.Sprintf("http://localhost:8808/%s/%s", apiKey, model))
+	if err != nil {
+		mylog.Logger.Error("CheckTokenModel error: " + err.Error())
+		return ""
+	}
+	data, err := io.ReadAll(resp.Body)
+	if err != nil {
+		mylog.Logger.Error("CheckTokenModel error: " + err.Error())
+		return ""
+	}
+	var m map[string]interface{}
+	err = json.Unmarshal(data, &m)
+	if err != nil {
+		mylog.Logger.Error("CheckTokenModel error: " + err.Error())
+		return ""
+	}
+	ns, ok := m["namespace"].(string)
+	if !ok {
+		mylog.Logger.Error("CheckTokenModel get no namespace: " + string(data))
+	}
+	return ns
+}
+
+func HandleOpenAIRequest(c *gin.Context, oaiReq *openai.ChatCompletionRequest, namespace string) {
 
 	clientModel := oaiReq.Model
 
@@ -174,7 +202,7 @@ func HandleOpenAIRequest(c *gin.Context, oaiReq *openai.ChatCompletionRequest) {
 
 	oaiReq.Model = gRedirectModel
 
-	s, serviceModelName, err := getModelDetails(oaiReq)
+	s, serviceModelName, err := getModelDetails(oaiReq, namespace)
 	if err != nil {
 		mylog.Logger.Error(err.Error())
 		sendErrorResponse(c, http.StatusBadRequest, err.Error())
@@ -347,11 +375,11 @@ func validateAPIKey(apikey string) bool {
 	return true
 }
 
-func getModelDetails(oaiReq *openai.ChatCompletionRequest) (*config.ModelDetails, string, error) {
+func getModelDetails(oaiReq *openai.ChatCompletionRequest, namespace string) (*config.ModelDetails, string, error) {
 	if oaiReq.Model == config.KEYNAME_RANDOM {
 		return config.GetRandomEnabledModelDetailsV1()
 	}
-	s, err := config.GetModelService(oaiReq.Model)
+	s, err := config.GetModelService(oaiReq.Model, namespace)
 	if err != nil {
 		return nil, "", err
 	}

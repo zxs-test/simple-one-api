@@ -133,7 +133,7 @@ func handleRateLimiting(limiter *mylimiter.Limiter, timeout int) {
 
 func getEmbeddingModelDetails(oaiEmbReq *oai.EmbeddingRequest) (*config.ModelDetails, string, error) {
 
-	s, err := config.GetModelService(oaiEmbReq.Model)
+	s, err := config.GetModelService(oaiEmbReq.Model, "")
 	if err != nil {
 		return nil, "", err
 	}
