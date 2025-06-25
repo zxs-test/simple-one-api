@@ -47,4 +47,4 @@ jobs:
         timeout-minutes: 120
         run: |
           ./quick_build.sh
-          docker build -f Dockerfile --push --no-cache --tag ${{ env.REGISTRY_REPO }}/simple-one-api:${{ env.branch }}-${{ env.suffix }}
+          docker build -f Dockerfile --push --no-cache --tag ${{ env.REGISTRY_REPO }}/simple-one-api:${{ env.branch }}-${{ env.suffix }} .
