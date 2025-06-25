@@ -6,7 +6,7 @@ WORKDIR /app
 
 # 通过构建参数选择架构
 ARG ARCH=amd64
-COPY build/linux-${ARCH}/simple-one-api /app/simple-one-api
+COPY simple-one-api /app/simple-one-api
 
 # 复制当前目录的static目录内的内容到镜像中
 COPY static /app/static
