@@ -164,6 +164,7 @@ func OpenAIHandler(c *gin.Context) {
 
 	if namespace == "" {
 		sendErrorResponse(c, http.StatusUnauthorized, "token unauthorized")
+		return
 	}
 
 	mycommon.LogChatCompletionRequest(oaiReq)
