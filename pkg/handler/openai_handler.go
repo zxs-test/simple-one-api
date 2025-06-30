@@ -3,6 +3,7 @@ package handler
 import (
 	"bytes"
 	"context"
+	"encoding/hex"
 	"errors"
 	"fmt"
 	"github.com/gin-gonic/gin"
@@ -175,7 +176,7 @@ func OpenAIHandler(c *gin.Context) {
 }
 
 func checkTokenModel(apiKey, model string) string {
-	resp, err := http.Get(fmt.Sprintf("http://localhost:8808/%s/%s", apiKey, model))
+	resp, err := http.Get(fmt.Sprintf("http://localhost:8808/%s/%s", apiKey, hex.EncodeToString([]byte(model))))
 	if err != nil {
 		mylog.Logger.Error("CheckTokenModel error: " + err.Error())
 		return ""
