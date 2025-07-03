@@ -16,8 +16,6 @@ FROM alpine:latest
 # 设置工作目录
 WORKDIR /app
 
-# 通过构建参数选择架构
-ARG ARCH=amd64
 COPY --from=build_context /out/usr/local/bin/simple-one-api /app/simple-one-api
 
 # 复制当前目录的static目录内的内容到镜像中
