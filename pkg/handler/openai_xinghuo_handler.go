@@ -48,7 +48,7 @@ func OpenAI2XingHuoHandler(c *gin.Context, oaiReqParam *OAIRequestParam) error {
 	apiKey, _ := utils.GetStringFromMap(credentials, config.KEYNAME_API_KEY)
 	apiSecret, _ := utils.GetStringFromMap(credentials, config.KEYNAME_API_SECRET)
 
-	serverUrl, domain, err := getServerURLAndDomain(s.ServerUrl, credentials, oaiReq.Model)
+	serverUrl, domain, err := getServerURLAndDomain(s.ServerURL, credentials, oaiReq.Model)
 	if err != nil {
 		return err
 	}

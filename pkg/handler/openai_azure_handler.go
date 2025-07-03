@@ -35,9 +35,9 @@ func OpenAI2AzureOpenAIHandler(c *gin.Context, oaiReqParam *OAIRequestParam) err
 	s := oaiReqParam.modelDetails
 
 	apiKey, _ := utils.GetStringFromMap(s.Credentials, config.KEYNAME_API_KEY)
-	serverURL, err := formatAzureURL(s.ServerUrl)
+	serverURL, err := formatAzureURL(s.ServerURL)
 	if err != nil {
-		serverURL = s.ServerUrl
+		serverURL = s.ServerURL
 	}
 
 	clientModel := oaiReqParam.ClientModel

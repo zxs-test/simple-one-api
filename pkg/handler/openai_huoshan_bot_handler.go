@@ -24,7 +24,7 @@ func configureClientWithApiKey(oaiReqParam *OAIRequestParam, model string) (*ark
 	s := oaiReqParam.modelDetails
 	credentials := oaiReqParam.creds
 
-	serverURL := s.ServerUrl
+	serverURL := s.ServerURL
 	if serverURL == "" {
 		serverURL = DefaultHuoShanServerURL
 	}

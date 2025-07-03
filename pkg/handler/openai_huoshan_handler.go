@@ -25,7 +25,7 @@ func configureClientWithAkSk(oaiReqParam *OAIRequestParam, model string) (*arkru
 	s := oaiReqParam.modelDetails
 	credentials := oaiReqParam.creds
 
-	serverURL := s.ServerUrl
+	serverURL := s.ServerURL
 	if serverURL == "" {
 		serverURL = DefaultHuoShanServerURL
 	}

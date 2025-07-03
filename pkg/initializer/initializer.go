@@ -15,7 +15,7 @@ var once sync.Once
 func Setup(configName string) error {
 	var err error
 	once.Do(func() {
-		err = config.InitConfig(configName)
+		err = config.InitViperConfig(configName)
 		if err != nil {
 			log.Println("Error initializing config:", err)
 			return

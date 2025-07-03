@@ -44,7 +44,7 @@ func OpenAI2CozecnHandler(c *gin.Context, oaiReqParam *OAIRequestParam) error {
 
 	secretToken := getSecretToken(credentials, oaiReq.Model)
 	cozecnReq := adapter.OpenAIRequestToCozecnRequest(oaiReq)
-	cozeServerURL := s.ServerUrl
+	cozeServerURL := s.ServerURL
 
 	apiVersion := "v3"
 	if strings.Contains(cozeServerURL, "v2/chat") {

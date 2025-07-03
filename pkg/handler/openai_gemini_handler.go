@@ -54,7 +54,7 @@ func OpenAI2GeminiHandler(c *gin.Context, oaiReqParam *OAIRequestParam) error {
 		return err
 	}
 
-	serverURL := s.ServerUrl
+	serverURL := s.ServerURL
 	if serverURL == "" {
 		serverURL = BaseURL
 	}
