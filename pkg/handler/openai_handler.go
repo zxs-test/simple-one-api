@@ -161,10 +161,10 @@ func OpenAIHandler(c *gin.Context) {
 		return
 	}
 
-	namespace := checkTokenModel(apikey, oaiReq.Model)
+	namespace, errStr := checkTokenModel(apikey, oaiReq.Model)
 
 	if namespace == "" {
-		sendErrorResponse(c, http.StatusUnauthorized, "token unauthorized")
+		sendErrorResponse(c, http.StatusUnauthorized, errStr)
 		return
 	}
 
@@ -175,28 +175,30 @@ func OpenAIHandler(c *gin.Context) {
 	return
 }
 
-func checkTokenModel(apiKey, model string) string {
+func checkTokenModel(apiKey, model string) (string, string) {
 	resp, err := http.Get(fmt.Sprintf("http://localhost:8808/%s/%s", apiKey, hex.EncodeToString([]byte(model))))
 	if err != nil {
 		mylog.Logger.Error("CheckTokenModel error: " + err.Error())
-		return ""
+		return "", "check token error"
 	}
 	data, err := io.ReadAll(resp.Body)
 	if err != nil {
 		mylog.Logger.Error("CheckTokenModel error: " + err.Error())
-		return ""
+		return "", "check token error"
 	}
 	var m map[string]interface{}
 	err = json.Unmarshal(data, &m)
 	if err != nil {
 		mylog.Logger.Error("CheckTokenModel error: " + err.Error() + ",data=" + string(data))
-		return ""
+		return "", "check token error"
 	}
 	ns, ok := m["namespace"].(string)
 	if !ok {
 		mylog.Logger.Error("CheckTokenModel get no namespace: " + string(data))
+		msg := m["msg"].(string)
+		return "", msg
 	}
-	return ns
+	return ns, ""
 }
 
 func HandleOpenAIRequest(c *gin.Context, oaiReq *openai.ChatCompletionRequest, namespace string) {
