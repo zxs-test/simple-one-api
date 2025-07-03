@@ -80,7 +80,7 @@ func getConfig(s *config.ModelDetails, oaiReqParam *OAIRequestParam) (openai.Cli
 	apiKey, _ := utils.GetStringFromMap(credentials, config.KEYNAME_API_KEY)
 	conf := openai.DefaultConfig(apiKey)
 
-	serverURL := s.ServerUrl
+	serverURL := s.ServerURL
 	if serverURL == "" {
 		serverURL = getDefaultServerURL(req.Model)
 		mylog.Logger.Info("Using default server URL",
@@ -269,9 +269,9 @@ func OpenAI2OpenAIHandler(c *gin.Context, oaiReqParam *OAIRequestParam) error {
 		return err
 	}
 
-	if strings.HasPrefix(s.ServerUrl, "https://api.groq.com/openai/v1") {
+	if strings.HasPrefix(s.ServerURL, "https://api.groq.com/openai/v1") {
 		adjustGroqReq(oaiReqParam.chatCompletionReq)
-	} else if strings.HasPrefix(s.ServerUrl, "https://open.bigmodel.cn") {
+	} else if strings.HasPrefix(s.ServerURL, "https://open.bigmodel.cn") {
 		mycommon.AdjustOpenAIRequestParams(oaiReqParam.chatCompletionReq)
 
 		if strings.Contains(oaiReqParam.chatCompletionReq.Model, "glm-4v") {
@@ -281,11 +281,11 @@ func OpenAI2OpenAIHandler(c *gin.Context, oaiReqParam *OAIRequestParam) error {
 
 	oaiReqParam.RM = getReasoningMode(s, oaiReqParam)
 	//oaiReqParam.RM = ReasoningNone
-	if strings.HasPrefix(s.ServerUrl, "https://api.deepseek.com") {
+	if strings.HasPrefix(s.ServerURL, "https://api.deepseek.com") {
 		if strings.Contains(oaiReqParam.chatCompletionReq.Model, "reasoner") {
 			oaiReqParam.RM = ReasoningR1
 		}
-	} else if strings.HasPrefix(s.ServerUrl, "https://openrouter.ai") {
+	} else if strings.HasPrefix(s.ServerURL, "https://openrouter.ai") {
 		if strings.Contains(oaiReqParam.chatCompletionReq.Model, "R1") || strings.Contains(oaiReqParam.chatCompletionReq.Model, "r1") {
 			oaiReqParam.RM = ReasoningOpenrouterR1
 		}
