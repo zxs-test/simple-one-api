@@ -16,12 +16,18 @@ FROM alpine:latest
 # 设置工作目录
 WORKDIR /app
 
-# 通过构建参数选择架构
-ARG ARCH=amd64
 COPY --from=build_context /out/usr/local/bin/simple-one-api /app/simple-one-api
 
 # 复制当前目录的static目录内的内容到镜像中
 COPY static /app/static
+
+# 创建非 root 用户和组
+RUN addgroup -S edgewize && adduser -S edgewize -G edgewize
+
+# 创建应用目录
+RUN chown -R edgewize:edgewize /app/simple-one-api
+
+USER edgewize
 
 # 暴露应用运行的端口（假设为9090）
 EXPOSE 9090
