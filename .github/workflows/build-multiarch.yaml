@@ -46,4 +46,4 @@ jobs:
         timeout-minutes: 120
         run: |
           ./quick_build.sh
-          docker buildx build --platform linux/amd64,linux/arm64 -f Dockerfile --push --no-cache --tag ${{ env.REGISTRY_REPO }}/simple-one-api:${{ env.branch }}-${{ env.suffix }} .
+          docker buildx build --platform linux/amd64,linux/arm64 -f Dockerfile --push --no-cache --tag ${{ env.REGISTRY_REPO }}/simple-one-api:${GITHUB_REF#refs/tags/} .
